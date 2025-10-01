@@ -40,17 +40,18 @@ export default function SystemLogsPage() {
       const queryParams = new URLSearchParams({
         $skip: ((page - 1) * pageSize).toString(),
         $top: pageSize.toString(),
+        $count: "true",
       });
 
-      const filters = [];
+      const filterConditions = [];
       if (startDate) {
-        filters.push(`date ge ${startDate}T00:00:00Z`);
+        filterConditions.push(`date ge ${startDate}T00:00:00Z`);
       }
       if (endDate) {
-        filters.push(`date le ${endDate}T23:59:59Z`);
+        filterConditions.push(`date le ${endDate}T23:59:59Z`);
       }
-      if (filters.length > 0) {
-        queryParams.append("$filter", filters.join(" and "));
+      if (filterConditions.length > 0) {
+        queryParams.append("$filter", filterConditions.join(" and "));
       }
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -59,8 +60,10 @@ export default function SystemLogsPage() {
       if (response.ok) {
         const data = await response.json();
         setLogs(data.value || []);
-        const count = data["@odata.count"] || 0;
-        setTotalPages(Math.ceil(count / pageSize));
+        const count = data["@odata.count"] || data.value?.length || 0;
+        setTotalPages(Math.max(1, Math.ceil(count / pageSize)));
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
       console.error("Failed to fetch system logs:", error);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -51,16 +51,22 @@ export default function EntityLogsPage() {
       const queryParams = new URLSearchParams({
         $skip: ((page - 1) * pageSize).toString(),
         $top: pageSize.toString(),
+        $count: "true",
       });
 
+      const filterConditions = [];
       if (filters.internalId) {
-        queryParams.append("$filter", `contains(internalId, '${filters.internalId}')`);
+        filterConditions.push(`contains(internalId, '${filters.internalId}')`);
       }
       if (filters.externalId) {
-        queryParams.append("$filter", `contains(externalId, '${filters.externalId}')`);
+        filterConditions.push(`contains(externalId, '${filters.externalId}')`);
       }
       if (filters.name) {
-        queryParams.append("$filter", `contains(name, '${filters.name}')`);
+        filterConditions.push(`contains(name, '${filters.name}')`);
+      }
+      
+      if (filterConditions.length > 0) {
+        queryParams.append("$filter", filterConditions.join(" and "));
       }
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -69,8 +75,10 @@ export default function EntityLogsPage() {
       if (response.ok) {
         const data = await response.json();
         setLogs(data.value || []);
-        const count = data["@odata.count"] || 0;
-        setTotalPages(Math.ceil(count / pageSize));
+        const count = data["@odata.count"] || data.value?.length || 0;
+        setTotalPages(Math.max(1, Math.ceil(count / pageSize)));
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
       console.error("Failed to fetch entity logs:", error);
@@ -166,8 +174,8 @@ export default function EntityLogsPage() {
                 </TableHeader>
                 <TableBody>
                   {logs.map((log) => (
-                    <>
-                      <TableRow key={log.id}>
+                    <React.Fragment key={log.id}>
+                      <TableRow>
                         <TableCell>
                           {log.exception && (
                             <button
@@ -199,7 +207,7 @@ export default function EntityLogsPage() {
                         </TableCell>
                       </TableRow>
                       {expandedRows.has(log.id) && log.exception && (
-                        <TableRow key={`${log.id}-exception`}>
+                        <TableRow>
                           <TableCell></TableCell>
                           <TableCell colSpan={7} className="bg-muted/50">
                             <div className="p-3 space-y-1">
@@ -211,7 +219,7 @@ export default function EntityLogsPage() {
                           </TableCell>
                         </TableRow>
                       )}
-                    </>
+                    </React.Fragment>
                   ))}
                 </TableBody>
               </Table>

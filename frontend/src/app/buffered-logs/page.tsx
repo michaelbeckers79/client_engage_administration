@@ -52,6 +52,8 @@ export default function BufferedLogsPage() {
       if (response.ok) {
         const data = await response.json();
         setLogs(data.logs || []);
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
       console.error("Failed to fetch buffered logs:", error);
