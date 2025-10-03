@@ -1,22 +1,8 @@
 import { MenuConfig } from "@/config/types";
 import {
-  ChartLine,
-  Cog,
-  UserRoundCog,
   Bolt,
-  Users,
-  Download,
-  FileChartLine,
   SquareActivity,
-  Newspaper,
-  Briefcase,
-  Megaphone,
-  Palette,
-  BarChart2,
-  Handshake,
-  ClipboardList,
-  Grid,
-  Calendar
+  BarChart3
 } from "lucide-react";
 
 export const MENU_SIDEBAR_MAIN: MenuConfig = [
@@ -24,30 +10,9 @@ export const MENU_SIDEBAR_MAIN: MenuConfig = [
     children: [
       {
         title: 'Home',
-        path: '#',
+        path: '/layout',
         icon: Bolt
-      },
-      {
-        title: 'Updates',
-        path: '/layout-20',
-        icon: Users
-      },
-      {
-        title: 'Inbox',
-        path: '#',
-        icon: UserRoundCog
-      },
-      {
-        title: 'Clients',
-        path: '#',
-        icon: Cog,
-        badge: 'Beta'
-      },
-      {
-        title: 'My Tasks',
-        path: '#',
-        icon: ChartLine
-      },
+      }
     ],
   }
 ];
@@ -57,88 +22,38 @@ export const MENU_SIDEBAR_RESOURCES: MenuConfig = [
     title: 'Resources',
     children: [
       {
-        title: 'About Metronic',
-        path: '#',
-        icon: Download
-      },
-      {
-        title: 'Advertise',
-        path: '#',
-        icon: FileChartLine,
-        badge: 'Pro'
-      },
-      {
         title: 'Help',
         path: '#',
         icon: SquareActivity
-      },
-      {
-        title: 'Blog',
-        path: '#',
-        icon: Newspaper
-      },
-      {
-        title: 'Careers',
-        path: '#',
-        icon: Briefcase
-      },
-      {
-        title: 'Press',
-        path: '#',
-        icon: Megaphone
-      },
+      }
     ],
   }
 ];
 
 export const MENU_SIDEBAR_WORKSPACES: MenuConfig = [
   {
-    title: 'Workspaces',
+    title: 'Data Synchronization',
     children: [
       {
-        title: 'Business Concepts',
-        path: '#',
-        icon: Briefcase
+        title: 'Dashboard',
+        path: '/layout/datasynchronization',
+        icon: BarChart3
       },
       {
-        title: 'KeenThemes Studio',
-        path: '#',
-        icon: Palette
+        title: 'Entity Logs',
+        path: '/layout/datasynchronization/entitylogs',
+        icon: Bolt
       },
       {
-        title: 'Teams',
-        path: '#',
-        icon: Handshake,
-        badge: 'Pro'
+        title: 'System Logs',
+        path: '/layout/datasynchronization/systemlogs',
+        icon: Bolt
       },
       {
-        title: 'Reports',
-        path: '#',
-        icon: BarChart2
-      },
+        title: 'Console Log',
+        path: '/layout/datasynchronization/consolelogs',
+        icon: Bolt
+      }
     ],
   }
-];
-
-export const MENU_TOOLBAR: MenuConfig = [
-  {
-    title: 'List',
-    path: '/layout-14',
-    icon: ClipboardList
-  },
-  {
-    title: 'Kanban',
-    path: '#',
-    icon: Grid
-  },
-  {
-    title: 'Calendar',
-    path: '#',
-    icon: Calendar
-  },
-  {
-    title: 'Dashboard',
-    path: '#',
-    icon: Bolt
-  },
 ];

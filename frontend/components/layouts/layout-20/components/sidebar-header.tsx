@@ -22,28 +22,16 @@ export function SidebarHeader() {
   const teams: Team[] = [
     {
       icon: Zap,
-      name: "Thunder AI",
+      name: "Environment 1",
       color: "bg-blue-600 text-white hover:bg-blue-700",
       members: 8
     },
     {
       icon: Gem,
-      name: "Clarity AI",
+      name: "Environment 2",
       color: "bg-fuchsia-600 text-white hover:bg-fuchsia-700",
       members: 6
     },
-    {
-      icon: Hexagon,
-      name: "Lightning AI",
-      color: "bg-yellow-600 text-white hover:bg-yellow-700",
-      members: 12
-    },
-    {
-      icon: Layers2,
-      name: "Bold AI",
-      color: "bg-blue-600 text-white hover:bg-blue-700",
-      members: 4
-    }
   ];
 
   const [selectedTeam, setSelectedTeam] = useState<Team>(teams[0]);
